@@ -31,7 +31,13 @@ function HomeComponent() {
           >
             <RestoreIcon />
           </IconButton>
-          <p>History</p>
+          <p
+            onClick={() => {
+              navigate("/history");
+            }}
+          >
+            History
+          </p>
 
           <Button
             onClick={() => {

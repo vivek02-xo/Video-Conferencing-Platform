@@ -330,7 +330,6 @@ export default function VideoMeetComponent() {
           connections[socketListId] = new RTCPeerConnection(
             peerConfigConnections,
           );
-          // Wait for their ice candidate
           connections[socketListId].onicecandidate = function (event) {
             if (event.candidate != null) {
               socketRef.current.emit(
@@ -340,8 +339,6 @@ export default function VideoMeetComponent() {
               );
             }
           };
-
-          // Wait for their video stream
           connections[socketListId].onaddstream = (event) => {
             console.log("BEFORE:", videoRef.current);
             console.log("FINDING ID: ", socketListId);
@@ -353,7 +350,6 @@ export default function VideoMeetComponent() {
             if (videoExists) {
               console.log("FOUND EXISTING");
 
-              // Update the stream of the existing video
               setVideos((videos) => {
                 const updatedVideos = videos.map((video) =>
                   video.socketId === socketListId
@@ -364,7 +360,6 @@ export default function VideoMeetComponent() {
                 return updatedVideos;
               });
             } else {
-              // Create a new video
               console.log("CREATING NEW");
               let newVideo = {
                 socketId: socketListId,
@@ -380,8 +375,7 @@ export default function VideoMeetComponent() {
               });
             }
           };
-
-          // Add the local video stream
+          
           if (window.localStream !== undefined && window.localStream !== null) {
             connections[socketListId].addStream(window.localStream);
           } else {
